@@ -1,0 +1,417 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --ink: #05060b;
+  --ink-soft: #0a0c14;
+  --panel: #11141f;
+  --panel-high: #161a28;
+  --signal: #4c7dff;
+  --signal-bright: #84a7ff;
+  --violet: #9a6bff;
+  --bone: #edeef2;
+  --mist: #8a90a3;
+  --faint: #5a6274;
+  --live: #34d399;
+
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.13);
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --shell-pad: 1.5rem;
+
+  --nav-h: 72px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --shell-pad: 2.5rem;
+  }
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* offset for the fixed nav when jumping to anchors */
+    scroll-padding-top: calc(var(--nav-h) + 24px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--bone);
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* The ambient field sits behind everything and never intercepts pointer events. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 78% -8%, rgba(76, 125, 255, 0.14), transparent 62%),
+      radial-gradient(48rem 34rem at 4% 12%, rgba(154, 107, 255, 0.1), transparent 60%),
+      radial-gradient(52rem 38rem at 50% 104%, rgba(76, 125, 255, 0.09), transparent 62%);
+  }
+
+  ::selection {
+    background: rgba(76, 125, 255, 0.32);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--signal-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
+    font-weight: 600;
+    color: var(--bone);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e2333;
+    border-radius: 999px;
+    border: 3px solid var(--ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2c3348;
+  }
+
+  /* Native anchor targets shouldn't hide under the fixed nav */
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+}
+
+/* ============================================================
+   COMPONENT UTILITIES
+   ============================================================ */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: var(--shell-pad);
+  }
+
+  /* Section label: mono, uppercase, preceded by a short signal dash. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--signal), rgba(76, 125, 255, 0.1));
+    flex: none;
+  }
+
+  /* Glass surface — restrained, so it never turns into frosted soup. */
+  .panel {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+      rgba(14, 17, 27, 0.72);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .panel-hover {
+    transition:
+      border-color 0.5s var(--ease-silk),
+      transform 0.5s var(--ease-silk),
+      box-shadow 0.5s var(--ease-silk);
+  }
+
+  .panel-hover:hover {
+    border-color: rgba(76, 125, 255, 0.32);
+    transform: translateY(-3px);
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.05) inset,
+      0 30px 70px -40px rgba(0, 0, 0, 0.95);
+  }
+
+  /* Hairline rule that fades at both ends. */
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--line-strong) 18%,
+      var(--line-strong) 82%,
+      transparent
+    );
+  }
+
+  .text-signal {
+    background: linear-gradient(100deg, var(--signal-bright), var(--violet) 78%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Underline that grows from the left on hover. */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: right;
+    background: currentColor;
+    opacity: 0.7;
+    transition: transform 0.45s var(--ease-silk);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Faint technical grid, masked to fade out. */
+  .grid-field {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 78%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 78%);
+  }
+
+  /* Film grain — keeps flat gradients from banding. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  /* Marquee ticker: pauses on hover so the labels stay readable. */
+  .marquee-track {
+    animation: marquee 46s linear infinite;
+  }
+
+  .marquee-shell:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ============================================================
+     SIGNATURE ELEMENT — the signal trace.
+     A message-bus line that pulses with a travelling packet of
+     light. Ties the emergency-dispatch and RabbitMQ sides of the
+     CV into one visual motif.
+     ============================================================ */
+  .trace {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trace::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 28%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(132, 167, 255, 0.85),
+      transparent
+    );
+    animation: trace-run 7s linear infinite;
+    pointer-events: none;
+  }
+
+  .trace-slow::after {
+    animation-duration: 11s;
+  }
+
+  @keyframes trace-run {
+    0% {
+      transform: translateX(-120%);
+    }
+    100% {
+      transform: translateX(420%);
+    }
+  }
+
+  /* Conic ring that rotates slowly behind the portrait. */
+  .conic-halo::before {
+    content: '';
+    position: absolute;
+    inset: -28%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(76, 125, 255, 0.55) 70deg,
+      rgba(154, 107, 255, 0.42) 130deg,
+      transparent 210deg,
+      transparent 360deg
+    );
+    filter: blur(46px);
+    animation: spin-slow 18s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Honour it globally: kill decorative loops, keep opacity
+   transitions so content still reads as revealed.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   OPTIONAL LIGHT THEME — enabled only by the navigation toggle
+   ============================================================ */
+:root[data-theme='light'] {
+  --ink: #f5f7fb;
+  --ink-soft: #eaf0f8;
+  --panel: #ffffff;
+  --panel-high: #f3f6fb;
+  --bone: #172033;
+  --mist: #526078;
+  --faint: #748198;
+  --line: rgba(23, 32, 51, 0.10);
+  --line-strong: rgba(23, 32, 51, 0.17);
+}
+
+:root[data-theme='light'] body::before {
+  background:
+    radial-gradient(60rem 40rem at 78% -8%, rgba(76, 125, 255, 0.10), transparent 62%),
+    radial-gradient(48rem 34rem at 4% 12%, rgba(154, 107, 255, 0.07), transparent 60%),
+    radial-gradient(52rem 38rem at 50% 104%, rgba(76, 125, 255, 0.06), transparent 62%);
+}
+
+:root[data-theme='light'] h1,
+:root[data-theme='light'] h2,
+:root[data-theme='light'] h3,
+:root[data-theme='light'] h4 { color: var(--bone); }
+:root[data-theme='light'] .panel {
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+  border-color: var(--line-strong);
+}
+:root[data-theme='light'] .bg-ink { background-color: #f5f7fb; }
+:root[data-theme='light'] .bg-ink-soft { background-color: #eaf0f8; }
+:root[data-theme='light'] .bg-ink\/40 { background-color: rgba(245,247,251,.4); }
+:root[data-theme='light'] .bg-ink\/60 { background-color: rgba(245,247,251,.6); }
+:root[data-theme='light'] .bg-ink\/70 { background-color: rgba(245,247,251,.7); }
+:root[data-theme='light'] .bg-ink\/75 { background-color: rgba(245,247,251,.75); }
+:root[data-theme='light'] .bg-ink\/80 { background-color: rgba(245,247,251,.8); }
+:root[data-theme='light'] .bg-ink\/95 { background-color: rgba(245,247,251,.95); }
+:root[data-theme='light'] .text-white { color: #fff; }
+:root[data-theme='light'] .border-white\/10,
+:root[data-theme='light'] .border-white\/12,
+:root[data-theme='light'] .border-white\/[0\.06],
+:root[data-theme='light'] .border-white\/[0\.07],
+:root[data-theme='light'] .border-white\/[0\.08],
+:root[data-theme='light'] .border-white\/[0\.09] { border-color: rgba(23,32,51,.12); }
+:root[data-theme='light'] .bg-white\/[0\.02],
+:root[data-theme='light'] .bg-white\/[0\.025],
+:root[data-theme='light'] .bg-white\/[0\.03],
+:root[data-theme='light'] .bg-white\/[0\.035],
+:root[data-theme='light'] .bg-white\/[0\.04],
+:root[data-theme='light'] .bg-white\/[0\.06] { background-color: rgba(23,32,51,.035); }
+:root[data-theme='light'] .grid-field {
+  background-image: linear-gradient(rgba(23,32,51,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(23,32,51,.035) 1px, transparent 1px);
+}
+:root[data-theme='light'] ::-webkit-scrollbar-track { background: var(--ink); }
+:root[data-theme='light'] ::-webkit-scrollbar-thumb { background: #cbd4e2; border-color: var(--ink); }
+:root[data-theme='light'] .text-bone { color: #172033 !important; }
+:root[data-theme='light'] .text-mist { color: #526078 !important; }
+:root[data-theme='light'] .text-faint { color: #748198 !important; }
+:root[data-theme='light'] .text-signal { color: #315fc9; }
+:root[data-theme='light'] .bg-ink-soft\/60 { background-color: rgba(234,240,248,.6); }
+:root[data-theme='light'] .bg-ink-soft\/40 { background-color: rgba(234,240,248,.4); }
