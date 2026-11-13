@@ -1,5 +1,6 @@
 import { About } from './components/About'
 import { Background } from './components/Background'
+import { Certifications } from './components/Certifications'
 import { Contact } from './components/Contact'
 import { Education } from './components/Education'
 import { Experience } from './components/Experience'
@@ -29,6 +30,7 @@ export default function App() {
         <Skills />
         <Experience />
         <Projects />
+        <Certifications />
         <Education />
         <Contact />
       </main>

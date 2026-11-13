@@ -23,7 +23,7 @@ function FeatureCard({ project, index }: { project: Project; index: number }) {
             whileHover={{ scale: 1.015 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <ProjectVisual variant={project.visual} />
+            <ProjectVisual variant={project.visual} mediaSrc={project.mediaSrc} />
           </motion.div>
 
           {/* Content */}
@@ -110,7 +110,7 @@ function CompactCard({ project, index }: { project: Project; index: number }) {
         className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.035] to-transparent p-2 transition-colors duration-700 hover:border-signal/25"
       >
         <div className="relative px-4 pt-4">
-          <ProjectVisual variant={project.visual} />
+          <ProjectVisual variant={project.visual} mediaSrc={project.mediaSrc} />
         </div>
 
         <div className="flex flex-1 flex-col px-4 pb-6 pt-6">

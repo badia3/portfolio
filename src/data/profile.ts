@@ -264,7 +264,8 @@ export type Project = {
   contribution: string[]
   stack: string[]
   context: string
-  visual: 'dispatch' | 'pipeline' | 'board' | 'health'
+  visual: 'dispatch' | 'pipeline' | 'board' | 'health' | 'video'
+  mediaSrc?: string
   featured?: boolean
 }
 
@@ -350,6 +351,27 @@ export const projects: Project[] = [
     stack: ['React.js', 'Node.js', 'Express.js', 'MongoDB'],
     visual: 'health',
   },
+  {
+    id: 'tunisair-rag',
+    title: 'Tunisair RAG Assistant',
+    kicker: 'Agentic airline knowledge assistant',
+    context: 'Personal project',
+    description:
+      'An agentic RAG system built for Tunisair that answers travel and service questions from approved Tunisair sources, grades the evidence, and generates official booking links for timetable searches without scraping the booking website itself.',
+    challenges: [
+      'Keeping the assistant grounded in a strict allowlist of Tunisair pages instead of unverified web content.',
+      'Designing an evidence-aware workflow that retries with rewritten queries when the retrieved information is too weak.',
+      'Generating valid booking URLs for flight timetable requests while preserving source traceability.',
+    ],
+    contribution: [
+      'Architected the full agentic retrieval workflow and routing logic for customer and timetable queries.',
+      'Integrated vector search and document retrieval over approved Tunisair content with citation-aware responses.',
+      'Built the FastAPI backend and user-facing interface for a usable employee support assistant.',
+    ],
+    stack: ['Python', 'FastAPI', 'LangGraph', 'Pinecone', 'SQLite', 'Ollama', 'HTML', 'JavaScript'],
+    visual: 'video',
+    mediaSrc: new URL('../assets/ragAssistantBot.mp4', import.meta.url).href,
+  },
 ]
 
 export type Education = {
@@ -391,6 +413,24 @@ export const education: Education[] = [
   },
 ]
 
+export type Certification = {
+  title: string
+  issuer: string
+  period: string
+  detail: string
+  link: string
+}
+
+export const certifications: Certification[] = [
+  {
+    title: 'SQL Certification',
+    issuer: '365 Data Science',
+    period: '2026',
+    detail: 'Completed a SQL fundamentals course focused on querying, filtering, joins, and database analysis workflows.',
+    link: 'https://learn.365datascience.com/certificates/CC-6BE77F1D59/',
+  },
+]
+
 export const contactCopy = {
   headline: 'Have a project or opportunity in mind?',
   body: "I'm always interested in connecting with people, exploring new challenges, and contributing to meaningful software projects.",
@@ -402,6 +442,7 @@ export const navItems = [
   { id: 'skills', label: 'Skills' },
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'education', label: 'Education' },
   { id: 'contact', label: 'Contact' },
 ] as const
