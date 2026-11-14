@@ -416,7 +416,7 @@ export const education: Education[] = [
 export type Certification = {
   title: string
   issuer: string
-  period: string
+  period?: string
   detail: string
   link: string
 }
@@ -428,6 +428,27 @@ export const certifications: Certification[] = [
     period: '2026',
     detail: 'Completed a SQL fundamentals course focused on querying, filtering, joins, and database analysis workflows.',
     link: 'https://learn.365datascience.com/certificates/CC-6BE77F1D59/',
+  },
+  {
+    title: 'Ai Agents in Practice Certification',
+    issuer: '365 Data Science',
+    period: '2026',
+    detail: 'fully-functional Crypto Market Analysis Agent powered by LangGraph, OpenAI models, and real-world data sources.',
+    link: 'https://learn.365datascience.com/c/323fa6ae5c/',
+  },
+  {
+    title: 'Introduction to generative AI and agents',
+    issuer: 'Microsoft Learn',
+    period: '2026',
+    detail: 'An achievement from Microsoft Learn covering the fundamentals of generative AI and AI agents.',
+    link: 'https://learn.microsoft.com/en-us/users/mohamedbadiabejaoui-5866/achievements/print/egmmf3kp',
+  },
+  {
+    title: 'Get started with AI in Azure',
+    issuer: 'Microsoft Learn',
+    period: '2026',
+    detail: 'An achievement from Microsoft Learn introducing AI concepts and services in Azure.',
+    link: 'https://learn.microsoft.com/en-us/users/mohamedbadiabejaoui-5866/achievements/print/p6qe7vk4',
   },
 ]
 

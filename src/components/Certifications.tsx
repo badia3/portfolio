@@ -4,9 +4,21 @@ import { Reveal } from './ui/Reveal'
 import { Section } from './ui/Section'
 
 const sqlCertificate = new URL('../assets/sql.png', import.meta.url).href
+const aiAgentsCertificate = new URL('../assets/ai.png', import.meta.url).href
+const microsoftGenerativeAiCertificate = new URL('../assets/microsoft-generative-ai.png', import.meta.url).href
+const microsoftAzureAiCertificate = new URL('../assets/microsoft-ai-in-azure.png', import.meta.url).href
 
 function Entry({ item, index }: { item: Certification; index: number }) {
-  const imageSrc = item.title === 'SQL Certification' ? sqlCertificate : undefined
+  const imageSrc =
+    item.title === 'SQL Certification'
+      ? sqlCertificate
+      : item.title === 'Ai Agents in Practice Certification'
+        ? aiAgentsCertificate
+        : item.title === 'Introduction to generative AI and agents'
+          ? microsoftGenerativeAiCertificate
+          : item.title === 'Get started with AI in Azure'
+            ? microsoftAzureAiCertificate
+            : undefined
 
   return (
     <Reveal delay={0.06 * index}>
@@ -35,7 +47,9 @@ function Entry({ item, index }: { item: Certification; index: number }) {
                 <p className="mt-1 text-[0.8125rem] text-faint">{item.issuer}</p>
               </div>
 
-              <p className="mono text-[0.625rem] tracking-tight text-faint">{item.period}</p>
+              {item.period && (
+                <p className="mono text-[0.625rem] tracking-tight text-faint">{item.period}</p>
+              )}
             </div>
 
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-mist">{item.detail}</p>
@@ -68,7 +82,7 @@ export function Certifications() {
           <span className="text-signal">with proof.</span>
         </>
       }
-      lede="I like to keep the core fundamentals sharp, especially where data quality and query discipline determine whether a system can really be trusted."
+      lede="I keep my technical foundations sharp across data, AI, and cloud technologies."
     >
       <div className="grid gap-4 lg:grid-cols-1">
         {certifications.map((item, index) => (
